@@ -24,7 +24,20 @@ def create_dataset():
     labels = ['no surfacing', 'flippers']
     return data_set, labels
 
+def split_dataset(data_set, axis, value):
+    ret_data_set = []
+
+    for feature_vector in data_set:
+        if feature_vector[axis] == value:
+            reduced_feature_vector = feature_vector[:axis]
+            reduced_feature_vector.extend(feature_vector[axis + 1: ])
+            ret_data_set.append(reduced_feature_vector)
+    
+    return ret_data_set
+
 if __name__ == '__main__':
     my_data, labels = create_dataset()
     print(my_data)
     print(calculate_shannon_entropy(my_data))
+    print(split_dataset(my_data, 0, 1))
+    print(split_dataset(my_data, 0, 0))
