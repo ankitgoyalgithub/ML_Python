@@ -1,4 +1,5 @@
 from math import log
+import operator
 
 def calculate_shannon_entropy(data_set):
     num_entries = len(data_set)
@@ -35,7 +36,7 @@ def split_dataset(data_set, axis, value):
     return ret_data_set
 
 def choose_best_feture_to_split(data_set):
-    num_features = len(data_set[0] - 1)
+    num_features = len(data_set[0]) - 1
     base_entropy = calculate_shannon_entropy(data_set)
     best_info_gain = 0.0
     best_feature = -1
@@ -54,6 +55,13 @@ def choose_best_feture_to_split(data_set):
             best_feature = i
     return best_feature
 
+def majority_count(class_list):
+    class_count = {}
+    for vote in class_list:
+        if vote not in class_count.keys():
+            class_count[vote] += 1
+    sorted_class_count = sorted(class_count.items(), key=operator.itemgetter(1), reverse=True)
+    return sorted_class_count
 
 if __name__ == '__main__':
     my_data, labels = create_dataset()
@@ -61,3 +69,4 @@ if __name__ == '__main__':
     print(calculate_shannon_entropy(my_data))
     print(split_dataset(my_data, 0, 1))
     print(split_dataset(my_data, 0, 0))
+    print(choose_best_feture_to_split(my_data))
